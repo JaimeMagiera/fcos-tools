@@ -4,7 +4,7 @@ passwd:
   users:
     - name: core
       ssh_authorized_keys:
-        - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCaniLEBsiKMbnetiHT6sHJaKfwMYBBK7AAs1nq0vnxd/eW92mS5wGfqTZMPFc9CIWPUl1Y8ZI+DsmfMaMoHm60wXAWIoTSryct+mT852eF7NajVWJWfHVvbrN069RuOgo7FmTEJlFJ0oleC3dlhJLzDxM8O9wJHn6rych6Y+ybAM+2SKJdJRM7vLIkV844X7xvtCqAVEuybhz0Wf/tsnNKMUrbKLfLLKquhUyRh0gyx6m1kc0vppopo149Th63UpdgvV6y6Q8WBcfbVCE0/PODSE4VvK6/qQjX/GYq9c0THgHH/GmEEVXgzvgCYDDALm5WKAKov6gjI3BxQqFLInAl1jkUhYNioL/caHq1eL4p7/USiO8k8N94pse808Jx0Gzi/ifWlrjeX57yHcEPcCpbE7Pj73zylSDxMYCeqiEtT8BhLXevGkT43AaFvKpbR/out0AIJ4Ci5kzIknjxZETmgoNbxhzINZsYZ8fQszD/MHXVNrXHOuPRkVvWlZPWTtYIfEFSdurIPvPBpHDoOfizkZvj4mQl7mwyaeAHRyAJmJarJvKTHX62YG4l/bQJO2KWYB+RXJVLycbIt/08OdWyKhjhPRBqg6GkIMLuJ0dKMW+LTSxppdxD6GJAnzdimL5r435UC3a3ODc5SZKPABF3EWIoeDor/WiYpm4UN52ITQ== jaimelm@oatmeal
+        - ssh-rsa... 
 storage:
   directories:
     - path: /home/core/.config/systemd/user/default.target.wants
