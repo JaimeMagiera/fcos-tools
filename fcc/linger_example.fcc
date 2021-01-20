@@ -2,21 +2,25 @@ variant: fcos
 version: 1.2.0
 passwd:
   users:
+    - name: sleeper
+      ssh_authorized_keys:
+        - ssh-rsa ... 
     - name: core
       ssh_authorized_keys:
-        - ssh-rsa... 
+        - ssh-rsa ... 
+ 
 storage:
   directories:
-    - path: /home/core/.config/systemd/user/default.target.wants
+    - path: /home/sleeper/.config/systemd/user/default.target.wants
       mode: 0744
       user:
-        name: core
+        name: sleeper
       group:
-        name: core
+        name: sleeper
   files:
-    - path: /var/lib/systemd/linger/core
-      mode: 0644 
-    - path: /home/core/.config/systemd/user/linger-example.service 
+    - path: /var/lib/systemd/linger/sleeper
+      mode: 0644
+    - path: /home/sleeper/.config/systemd/user/linger-example.service
       mode: 0744
       contents:
         inline: |
@@ -25,16 +29,16 @@ storage:
           After=network-online.target
           Wants=network-online.target
           [Service]
-          ExecStart=/usr/bin/bash -c 'echo success! > /home/core/linger-example-results.txt' 
+          ExecStart=/usr/bin/sleep infinity
       user:
-        name: core
+        name: sleeper
       group:
-        name: core
+        name: sleeper
   links:
-    - path: /home/core/.config/systemd/user/default.target.wants/linger-example.service
+    - path: /home/sleeper/.config/systemd/user/default.target.wants/linger-example.service
       user:
-        name: core
+        name: sleeper
       group:
-        name: core
-      target: /home/core/.config/systemd/user/linger-example.service
-      hard: false  
+        name: sleeper
+      target: /home/sleeper/.config/systemd/user/linger-example.service
+      hard: false
