@@ -63,21 +63,24 @@ file_name=$(basename ${file_url})
 template_name="${file_name%.*}"
 template_exists=false
 
-echo "Checking for ${template_name} in library ${LIBRARY}"
-library_items=$(govc library.ls "${chosen_library}/*")
-while IFS= read -r line; do
-  library_item_name=$(echo  ${line} | cut -d'/' -f 3)
-  echo "Library Item: $library_item_name"
-  if [[ "$library_item_name" ==  "$template_name" ]]; then
-    echo "Template already exists in library"
-    template_exists=true
-    break
-  fi
-done <<< "$library_items"
+echo "Checking for ${template_name} in library ${chosen_library}"
 
-if [[ "$template_exists" == false ]]; then
-  echo "Importing template to library"
-  curl -s -i -O ${file_url}
-  govc library.import -k=true "${chosen_library}" "${file_url}"
+library_items=$(podman run -e GOVC_URL="${GOVC_URL}" -e GOVC_USERNAME="${GOVC_USERNAME}" -e GOVC_PASSWORD="${GOVC_PASSWORD}" -e GOVC_INSECURE=true --rm -it docker.io/vmware/govc /govc library.ls "/${chosen_library}/")
+
+if [[ ! -z "${library_items}" ]]; then
+  while IFS= read -r line; do
+    library_item_name=$(echo  ${line} | cut -d'/' -f 3 | tr -d '[:cntrl:]')
+    if [[ "${library_item_name}" ==  "${template_name}" ]]; then
+      echo "Template already exists in library"
+      template_exists=true
+      break
+    fi
+  done <<< "$library_items"
 fi
+
+if [[ "${template_exists}" == false ]]; then
+  echo "Importing template to library"
+  podman run -e GOVC_URL="${GOVC_URL}" -e GOVC_USERNAME="${GOVC_USERNAME}" -e GOVC_PASSWORD="${GOVC_PASSWORD}" -e GOVC_INSECURE=true --rm -it docker.io/vmware/govc /govc library.import -k=true "${chosen_library}" "${file_url}"
+fi
+
 echo ${template_name} 
