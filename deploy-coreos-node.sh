@@ -139,9 +139,9 @@ echo "Network: ${cluster_network}"
 echo "Folder: ${cluster_folder}"
 echo "Datastore: ${cluster_datastore}"
 
-govc library.deploy --folder "${cluster_folder}" "${library}/${ova_name}" "${vm_name}"
+podman run -e GOVC_URL="${GOVC_URL}" -e GOVC_USERNAME="${GOVC_USERNAME}" -e GOVC_PASSWORD="${GOVC_PASSWORD}" -e GOVC_INSECURE=true --rm -it docker.io/vmware/govc /govc library.deploy --folder "${cluster_folder}" "${library}/${ova_name}" "${vm_name}"
 
-govc vm.change -vm "${vm_name}" \
+podman run -e GOVC_URL="${GOVC_URL}" -e GOVC_USERNAME="${GOVC_USERNAME}" -e GOVC_PASSWORD="${GOVC_PASSWORD}" -e GOVC_INSECURE=true --rm -it docker.io/vmware/govc /govc vm.change -vm "${vm_name}" \
 	-e guestinfo.ignition.config.data="$(cat ${ignition_file_path} | base64 -w0)" \
 	-e guestinfo.ignition.config.data.encoding="base64" \
 	-c="${vm_cpu}" \
@@ -149,15 +149,15 @@ govc vm.change -vm "${vm_name}" \
 
 
 if [[ ! -z "${ipcfg}" ]]; then
-	govc vm.change -vm "${vm_name}" -e "guestinfo.afterburn.initrd.network-kargs=${ipcfg}"
+	podman run -e GOVC_URL="${GOVC_URL}" -e GOVC_USERNAME="${GOVC_USERNAME}" -e GOVC_PASSWORD="${GOVC_PASSWORD}" -e GOVC_INSECURE=true --rm -it docker.io/vmware/govc /govc vm.change -vm "${vm_name}" -e "guestinfo.afterburn.initrd.network-kargs=${ipcfg}"
 fi
 	
 if [[ ! -z "${vm_mac}" ]]; then
-	govc vm.network.change -vm ${vm_name} -net "${cluster_network}" -net.address ${vm_mac} ethernet-0
+	podman run -e GOVC_URL="${GOVC_URL}" -e GOVC_USERNAME="${GOVC_USERNAME}" -e GOVC_PASSWORD="${GOVC_PASSWORD}" -e GOVC_INSECURE=true --rm -it docker.io/vmware/govc /govc vm.network.change -vm ${vm_name} -net "${cluster_network}" -net.address ${vm_mac} ethernet-0
 fi
 
 govc vm.info -e "${vm_name}"
 
 if [[ ! -z "${boot_vm}" ]]; then
-	govc vm.power -on "${vm_name}"
+	podman run -e GOVC_URL="${GOVC_URL}" -e GOVC_USERNAME="${GOVC_USERNAME}" -e GOVC_PASSWORD="${GOVC_PASSWORD}" -e GOVC_INSECURE=true --rm -it docker.io/vmware/govc /govc vm.power -on "${vm_name}"
 fi
