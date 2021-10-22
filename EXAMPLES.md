@@ -1,6 +1,6 @@
 # Examples
 
-Here are examples of using the scripts in this repository to provision and manage FCOS nodes. They utilize the [govc](https://github.com/vmware/govmomi/tree/master/govc) command line tool and assume you've set your govc environment variables for cluster URL, username, password, etc.
+Here are examples of using the scripts in this repository to provision and manage FCOS nodes. They utilize the [govc](https://github.com/vmware/govmomi/tree/master/govc) command line tool through a container, which is run by Podman. As such, it's assumed that Podman is installed. Likewise, the scripts assume you've set your govc environment variables for cluster URL, username, password, etc. See the gov documentation for more details.
 
 ## Loaded the latest vSphere template available for a given FCOS stream ##
 In this example, the latest release template from the FCOS *next* stream is imported into the vSphere Content Library "Linux ISOs". The script can pull the latest .ova from the stable, testing, and next streams. If the template already exists in the library, the script outputs a message and exits.
